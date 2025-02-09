@@ -91,8 +91,21 @@ export default function BlogPage() {
 
         // Transform the data to match our interface
         const transformedBlogs = (blogsData || []).map(blog => ({
-          ...blog,
-          category: blog.blog_categories || null
+          id: blog.id,
+          title: blog.title,
+          content: blog.content,
+          image_url: blog.image_url,
+          created_at: blog.created_at,
+          updated_at: blog.updated_at,
+          author_name: blog.author_name,
+          author_avatar_url: blog.author_avatar_url,
+          category: blog.blog_categories ? {
+            id: blog.blog_categories.id,
+            name: blog.blog_categories.name,
+            slug: blog.blog_categories.slug,
+            description: blog.blog_categories.description,
+            color: blog.blog_categories.color
+          } : null
         }))
 
         setBlogs(transformedBlogs)
