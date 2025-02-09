@@ -41,7 +41,7 @@ export default function ClientLayout({
 }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userRole, setUserRole] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
@@ -82,6 +82,7 @@ export default function ClientLayout({
       } finally {
         if (mounted) {
           setMounted(true)
+          setIsLoading(false)
         }
       }
     }
@@ -110,8 +111,7 @@ export default function ClientLayout({
 
   // Handle route changes
   useEffect(() => {
-    setIsLoading(true)
-    const timeout = setTimeout(() => setIsLoading(false), 500)
+    const timeout = setTimeout(() => setIsLoading(false), 200)
     return () => clearTimeout(timeout)
   }, [pathname])
 
@@ -165,7 +165,10 @@ export default function ClientLayout({
     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
       {isLoading && (
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin" />
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <p className="text-sm text-muted-foreground">Loading...</p>
+          </div>
         </div>
       )}
       <div className="min-h-screen flex flex-col">
@@ -222,28 +225,7 @@ export default function ClientLayout({
           </div>
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" />
           <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary opacity-10 blur-[100px]" />
-          <div className={isLoading ? 'pointer-events-none opacity-50' : ''}>
-            {children}
-          </div>
-          {isLoading && (
-            <div className="fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
-              <div className="flex flex-col items-center gap-4">
-                <div className="relative w-20 h-20">
-                  <Image
-                    src="/logo.png"
-                    alt="TYPNI Logo"
-                    width={80}
-                    height={80}
-                    className="animate-bounce-slow"
-                    priority
-                  />
-                </div>
-                <div className="h-2 w-24 bg-muted overflow-hidden rounded-full">
-                  <div className="h-full w-1/2 bg-primary animate-[shimmer_1s_infinite]" />
-                </div>
-              </div>
-            </div>
-          )}
+          {children}
         </main>
         {pathname !== '/chat' && (
           <Footer />
