@@ -330,8 +330,8 @@ export default function ProgramsPage() {
                   <TableCell className="font-medium">{program.title}</TableCell>
                   <TableCell>
                     <Badge variant={
-                      program.status === 'Active' ? 'success' :
-                      program.status === 'Upcoming' ? 'default' :
+                      program.status === 'Active' ? 'default' :
+                      program.status === 'Upcoming' ? 'outline' :
                       'secondary'
                     }>
                       {program.status}
