@@ -121,7 +121,11 @@ export function Comments({ blogId }: CommentsProps) {
         author_avatar_url: comment.author_avatar_url || comment.user_profile?.avatar_url || null,
         likes: comment.likes?.length || 0,
         liked_by_user: session ? comment.likes?.some((like) => like.user_id === session.user.id) : false,
-        profile: comment.user_profile || null,
+        profile: comment.user_profile ? {
+          username: comment.user_profile.full_name, // Using full_name as username since it's not in the database
+          full_name: comment.user_profile.full_name,
+          avatar_url: comment.user_profile.avatar_url
+        } : undefined,
         replies: []
       }))
 
