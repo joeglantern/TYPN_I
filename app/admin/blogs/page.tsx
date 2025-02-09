@@ -52,7 +52,7 @@ export default function BlogsPage() {
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined)
   const router = useRouter()
 
   const [formData, setFormData] = useState({
@@ -316,7 +316,7 @@ export default function BlogsPage() {
         category: '',
         published: true
       })
-      setSelectedCategory(null)
+      setSelectedCategory(undefined)
       
     } catch (error: any) {
       console.error('Error saving blog:', error)
@@ -444,7 +444,7 @@ export default function BlogsPage() {
                   category: '',
                   published: true
                 })
-                setSelectedCategory(null)
+                setSelectedCategory(undefined)
               }}>
                 <Plus className="w-4 h-4 mr-2" />
                 Add Blog
