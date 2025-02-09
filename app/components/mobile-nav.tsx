@@ -20,15 +20,26 @@ import { Home, Book, Calendar, Edit, Image as ImageIcon, MessageCircle, Info, Ma
 import { LucideIcon } from 'lucide-react'
 
 interface MobileNavProps {
-  links: Array<{
+  links?: Array<{
     href: string
     label: string
     icon: LucideIcon
   }>
-  currentPath: string
+  currentPath?: string
 }
 
-export function MobileNav({ links, currentPath }: MobileNavProps) {
+const defaultLinks = [
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/programs', label: 'Programs', icon: Book },
+  { href: '/events', label: 'Events', icon: Calendar },
+  { href: '/blog', label: 'Blog', icon: Edit },
+  { href: '/gallery', label: 'Gallery', icon: ImageIcon },
+  { href: '/chat', label: 'Chat', icon: MessageCircle },
+  { href: '/about', label: 'About', icon: Info },
+  { href: '/contact', label: 'Contact', icon: Mail },
+]
+
+export function MobileNav({ links = defaultLinks, currentPath = '/' }: MobileNavProps) {
   const [open, setOpen] = React.useState(false)
   const [session, setSession] = React.useState<any>(null)
   const [isAdmin, setIsAdmin] = React.useState(false)
@@ -61,10 +72,12 @@ export function MobileNav({ links, currentPath }: MobileNavProps) {
 
   // Prefetch all links when component mounts
   React.useEffect(() => {
-    links.forEach((link) => {
-      router.prefetch(link.href)
-    })
-  }, [router])
+    if (links && links.length > 0) {
+      links.forEach((link) => {
+        router.prefetch(link.href)
+      })
+    }
+  }, [router, links])
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -107,7 +120,7 @@ export function MobileNav({ links, currentPath }: MobileNavProps) {
         <div className="flex flex-col h-[calc(100vh-120px)]">
           <nav className="flex-1 px-2 overflow-y-auto">
             <div className="space-y-1">
-              {links.map((link) => (
+              {links && links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
