@@ -1,9 +1,15 @@
 'use client'
 
+import * as React from 'react'
 import { useEffect, useRef } from 'react'
 
-export const ScrollAnimation = ({ children, className = '' }) => {
-  const elementRef = useRef(null)
+interface ScrollAnimationProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export const ScrollAnimation: React.FC<ScrollAnimationProps> = ({ children, className = '' }) => {
+  const elementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
