@@ -27,14 +27,19 @@ const BackgroundAnimation = () => {
     const colors = ['#FF69B4', '#8A2BE2', '#4B0082', '#00BFFF', '#FFD700']
 
     class Particle {
-      x: number
-      y: number
-      size: number
-      speedX: number
-      speedY: number
-      color: string
+      x: number = 0
+      y: number = 0
+      size: number = 0
+      speedX: number = 0
+      speedY: number = 0
+      color: string = colors[0]
 
       constructor() {
+        if (!canvas) return
+        this.initialize()
+      }
+
+      initialize() {
         if (!canvas) return
         this.x = Math.random() * canvas.width
         this.y = Math.random() * canvas.height
