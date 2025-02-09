@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 <div className="relative mb-8 inline-block group">
   <Image
     src="/logo.png"

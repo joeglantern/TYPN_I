@@ -109,7 +109,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
         )}
         <main className={cn(
           'flex-1',
-          isChatRoute ? 'h-screen' : 'container mx-auto px-4 sm:px-6 lg:px-8 py-4'
+          isChatRoute ? 'h-screen' : 'container mx-auto px-4 sm:px-6 lg:px-8 py-4 pt-20'
         )}>
           {children}
         </main>
