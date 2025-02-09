@@ -191,7 +191,7 @@ export default function AdminPollsPage() {
         ...poll,
         options: Array.isArray(poll.options) ? poll.options : [],
         votes: typeof poll.votes === 'object' ? poll.votes : {},
-        total_votes: Object.values(poll.votes || {}).reduce((a: number, b: number) => a + b, 0),
+        total_votes: Object.values(poll.votes || {}).map(Number).reduce((a, b) => a + b, 0),
         created_by: {
           username: userMap.get(poll.user_id) || 'Unknown User'
         }
