@@ -1232,7 +1232,7 @@ export default function ChatPage() {
               onReply={() => toast.error('Please sign in to reply to messages')}
               onReport={() => toast.error('Please sign in to report messages')}
               onPin={() => Promise.resolve()}
-              onBan={() => Promise.resolve()}
+              onBan={(userId: string) => Promise.resolve()}
               onAuthorize={() => Promise.resolve()}
               currentUser={null}
               isAdmin={false}
@@ -1381,7 +1381,7 @@ export default function ChatPage() {
               handleReport(message)
             }}
             onPin={handlePinMessage}
-            onBan={handleBanUser}
+            onBan={(userId: string) => Promise.resolve()}
             onAuthorize={handleAuthorizeUser}
             currentUser={session ? {
               ...session?.user,
