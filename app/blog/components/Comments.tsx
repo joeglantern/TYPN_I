@@ -109,7 +109,7 @@ export function Comments({ blogId }: CommentsProps) {
       }
 
       // Transform the data to include like information and profile data
-      const transformedData = (commentsData as DatabaseComment[]).map((comment: DatabaseComment) => ({
+      const transformedData: Comment[] = (commentsData as DatabaseComment[]).map((comment: DatabaseComment) => ({
         id: comment.id,
         content: comment.content,
         created_at: comment.created_at,
@@ -121,14 +121,18 @@ export function Comments({ blogId }: CommentsProps) {
         author_avatar_url: comment.author_avatar_url || comment.user_profile?.avatar_url,
         likes: comment.likes?.length || 0,
         liked_by_user: session ? comment.likes?.some((like) => like.user_id === session.user.id) : false,
-        profile: comment.user_profile || null
+        profile: comment.user_profile || null,
+        replies: []
       }))
 
       // Organize comments into threads
       const threads = transformedData.reduce((acc: Comment[], comment) => {
         if (!comment.parent_id) {
-          comment.replies = transformedData.filter(reply => reply.parent_id === comment.id)
-          acc.push(comment)
+          const commentWithReplies = {
+            ...comment,
+            replies: transformedData.filter(reply => reply.parent_id === comment.id)
+          }
+          acc.push(commentWithReplies)
         }
         return acc
       }, [])
