@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X, Home, Calendar, BookOpen, HeartHandshake, Info, Briefcase, Mail, Heart, Users, LogIn, Moon, Sun } from 'lucide-react'
@@ -23,7 +23,7 @@ export default function Header() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  useState(() => {
+  useEffect(() => {
     setMounted(true)
   }, [])
 
