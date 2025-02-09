@@ -52,7 +52,7 @@ export default function BlogsPage() {
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const router = useRouter()
 
   const [formData, setFormData] = useState({
@@ -414,8 +414,8 @@ export default function BlogsPage() {
               className="w-64"
             />
             <Select
-              value={selectedCategory?.toString()}
-              onValueChange={(value) => setSelectedCategory(parseInt(value))}
+              value={selectedCategory}
+              onValueChange={(value) => setSelectedCategory(value)}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select category" />
@@ -574,8 +574,8 @@ export default function BlogsPage() {
                     <Label>Category *</Label>
                     <div className="flex items-center gap-2">
                       <Select
-                        value={selectedCategory?.toString()}
-                        onValueChange={(value) => setSelectedCategory(parseInt(value))}
+                        value={selectedCategory}
+                        onValueChange={(value) => setSelectedCategory(value)}
                       >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select category" />
