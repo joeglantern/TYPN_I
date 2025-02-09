@@ -91,14 +91,22 @@ export default function PollsPage() {
 
         const formattedPolls = pollsData.map(poll => ({
           ...poll,
-          total_votes: Object.values(poll.votes || {}).reduce((a: number, b: number) => a + b, 0),
+          total_votes: Object.values(poll.votes || {}).reduce<number>((a, b) => {
+            const numA = typeof a === 'number' ? a : 0;
+            const numB = typeof b === 'number' ? b : 0;
+            return numA + numB;
+          }, 0),
           user_vote: userVotes.get(poll.id)
         }))
         setPolls(formattedPolls)
       } else {
         const formattedPolls = pollsData.map(poll => ({
           ...poll,
-          total_votes: Object.values(poll.votes || {}).reduce((a: number, b: number) => a + b, 0)
+          total_votes: Object.values(poll.votes || {}).reduce<number>((a, b) => {
+            const numA = typeof a === 'number' ? a : 0;
+            const numB = typeof b === 'number' ? b : 0;
+            return numA + numB;
+          }, 0)
         }))
         setPolls(formattedPolls)
       }
