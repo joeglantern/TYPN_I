@@ -13,6 +13,7 @@ const nextConfig = {
       },
     ],
     unoptimized: false,
+    domains: ['hbprwrzwhrkxvldwinti.supabase.co'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
@@ -36,6 +37,9 @@ const nextConfig = {
         ],
       },
     ]
+  },
+  typescript: {
+    ignoreBuildErrors: false,
   },
 }
 
