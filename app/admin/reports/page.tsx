@@ -39,21 +39,37 @@ interface Message {
   created_at: string
 }
 
+interface UserProfile {
+  id: string
+  username: string
+  avatar_url: string | null
+}
+
 interface Report {
   id: string
   reason: string
   status: 'pending' | 'resolved' | 'dismissed'
   created_at: string
-  reporter: {
-    id: string
-    username: string
-    avatar_url: string | null
-  } | null
-  reported_user: {
-    id: string
-    username: string
-    avatar_url: string | null
-  } | null
+  resolved_at: string | null
+  notes: string | null
+  message_id: string | null
+  reported_user_id: string
+  reporter_id: string
+  reported_user: UserProfile | null
+  reporter: UserProfile | null
+  message: Message | null
+}
+
+interface DatabaseReport {
+  id: string
+  reason: string
+  status: 'pending' | 'resolved' | 'dismissed'
+  created_at: string
+  resolved_at: string | null
+  notes: string | null
+  message_id: string | null
+  reported_user_id: string
+  reporter_id: string
   message: Message | null
 }
 
@@ -112,6 +128,7 @@ export default function ReportsPage() {
           )
         `)
         .order('created_at', { ascending: false })
+        .returns<DatabaseReport[]>()
 
       if (reportsError) {
         console.error('Supabase error:', reportsError)
@@ -127,12 +144,13 @@ export default function ReportsPage() {
       const userIds = new Set([
         ...reportsData.map(r => r.reported_user_id),
         ...reportsData.map(r => r.reporter_id)
-      ])
+      ].filter(Boolean))
 
       const { data: usersData, error: usersError } = await supabase
         .from('profiles')
-        .select('id, username, email')
+        .select('id, username, avatar_url')
         .in('id', Array.from(userIds))
+        .returns<UserProfile[]>()
 
       if (usersError) {
         console.error('Error fetching users:', usersError)
@@ -140,13 +158,13 @@ export default function ReportsPage() {
       }
 
       // Create a map of user details
-      const userMap = (usersData || []).reduce((acc, user) => {
+      const userMap = (usersData || []).reduce<Record<string, UserProfile>>((acc, user) => {
         acc[user.id] = user
         return acc
-      }, {} as { [key: string]: any })
+      }, {})
 
       // Transform the data to ensure all fields are properly typed
-      const formattedReports = reportsData.map(report => ({
+      const formattedReports: Report[] = reportsData.map(report => ({
         id: report.id,
         reason: report.reason,
         status: report.status,
@@ -156,21 +174,9 @@ export default function ReportsPage() {
         message_id: report.message_id,
         reported_user_id: report.reported_user_id,
         reporter_id: report.reporter_id,
-        reported_user: report.reported_user ? {
-          id: report.reported_user.id,
-          username: report.reported_user.username,
-          avatar_url: report.reported_user.avatar_url
-        } : null,
-        reporter: report.reporter ? {
-          id: report.reporter.id,
-          username: report.reporter.username,
-          avatar_url: report.reporter.avatar_url
-        } : null,
-        message: report.message ? {
-          id: report.message.id,
-          content: report.message.content,
-          created_at: report.message.created_at
-        } : null
+        reported_user: userMap[report.reported_user_id] || null,
+        reporter: userMap[report.reporter_id] || null,
+        message: report.message
       }))
 
       setReports(formattedReports)
