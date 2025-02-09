@@ -11,6 +11,25 @@ import { Search, Unlock, Ban } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { toast } from 'sonner'
 
+interface BannedUserRaw {
+  id: string
+  user_id: string
+  admin_id: string
+  reason: string
+  created_at: string
+  channel_id: string | null
+  user: {
+    username: string
+    avatar_url: string | null
+  } | null
+  admin: {
+    username: string
+  } | null
+  channel: {
+    name: string
+  } | null
+}
+
 interface BannedUser {
   id: string
   user_id: string
@@ -88,10 +107,15 @@ export default function BannedUsersPage() {
         console.error('Error updating banned users count:', countError)
       }
 
-      const formattedBannedUsers = bannedUsersData.map(user => ({
-        ...user,
+      const formattedBannedUsers = (bannedUsersData as BannedUserRaw[]).map(user => ({
+        id: user.id,
+        user_id: user.user_id,
+        admin_id: user.admin_id,
+        reason: user.reason,
+        created_at: user.created_at,
+        channel_id: user.channel_id,
         username: user.user?.username || 'Unknown User',
-        avatar_url: user.user?.avatar_url,
+        avatar_url: user.user?.avatar_url || null,
         admin_name: user.admin?.username || 'Unknown Admin',
         channel_name: user.channel?.name
       }))
