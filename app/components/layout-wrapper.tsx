@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { MainNav } from '@/app/components/main-nav'
@@ -35,33 +35,23 @@ interface LayoutWrapperProps {
 }
 
 export function LayoutWrapper({ children }: LayoutWrapperProps) {
-  const [isLoading, setIsLoading] = useState(true)  // Start with loading true
+  const [isLoading, setIsLoading] = useState(true)
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const router = useRouter()
   const isChatRoute = pathname?.startsWith('/chat')
 
   // Show initial loading state
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 100) // Short delay to ensure loading shows
+    const timer = setTimeout(() => setIsLoading(false), 100)
     return () => clearTimeout(timer)
   }, [])
 
   // Handle route changes
   useEffect(() => {
-    const handleStart = () => setIsLoading(true)
-    const handleComplete = () => setIsLoading(false)
-
-    router.events?.on('routeChangeStart', handleStart)
-    router.events?.on('routeChangeComplete', handleComplete)
-    router.events?.on('routeChangeError', handleComplete)
-
-    return () => {
-      router.events?.off('routeChangeStart', handleStart)
-      router.events?.off('routeChangeComplete', handleComplete)
-      router.events?.off('routeChangeError', handleComplete)
-    }
-  }, [router])
+    setIsLoading(true)
+    const timer = setTimeout(() => setIsLoading(false), 200)
+    return () => clearTimeout(timer)
+  }, [pathname, searchParams])
 
   // Prefetch routes in background
   useEffect(() => {
@@ -69,7 +59,10 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
       const routes = ['/', '/programs', '/events', '/blog', '/chat']
       for (const route of routes) {
         try {
-          await router.prefetch(route)
+          const link = document.createElement('link')
+          link.rel = 'prefetch'
+          link.href = route
+          document.head.appendChild(link)
         } catch (error) {
           console.error(`Failed to prefetch ${route}:`, error)
         }
@@ -81,7 +74,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
     } else {
       setTimeout(prefetchRoutes, 0)
     }
-  }, [router])
+  }, [])
 
   return (
     <div className="relative min-h-screen flex flex-col">
