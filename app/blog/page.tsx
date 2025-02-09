@@ -99,13 +99,13 @@ export default function BlogPage() {
           updated_at: blog.updated_at,
           author_name: blog.author_name,
           author_avatar_url: blog.author_avatar_url,
-          category: blog.blog_categories && {
-            id: blog.blog_categories.id,
-            name: blog.blog_categories.name,
-            slug: blog.blog_categories.slug,
-            description: blog.blog_categories.description,
-            color: blog.blog_categories.color
-          }
+          category: Array.isArray(blog.blog_categories) && blog.blog_categories[0] ? {
+            id: blog.blog_categories[0].id,
+            name: blog.blog_categories[0].name,
+            slug: blog.blog_categories[0].slug,
+            description: blog.blog_categories[0].description,
+            color: blog.blog_categories[0].color
+          } : null
         }))
 
         setBlogs(transformedBlogs)
