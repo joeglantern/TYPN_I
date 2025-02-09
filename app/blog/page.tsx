@@ -99,13 +99,13 @@ export default function BlogPage() {
           updated_at: blog.updated_at,
           author_name: blog.author_name,
           author_avatar_url: blog.author_avatar_url,
-          category: blog.blog_categories ? {
+          category: blog.blog_categories && {
             id: blog.blog_categories.id,
             name: blog.blog_categories.name,
             slug: blog.blog_categories.slug,
             description: blog.blog_categories.description,
             color: blog.blog_categories.color
-          } : null
+          }
         }))
 
         setBlogs(transformedBlogs)
