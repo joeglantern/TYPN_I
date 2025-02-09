@@ -1,0 +1,16 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  tailwindcss:
+    specifier: ^3.4.1
+    version: 3.4.1
+  autoprefixer:
+    specifier: ^10.4.17
+    version: 10.4.17
+  postcss:
+    specifier: ^8.4.33
+    version: 8.4.33 
