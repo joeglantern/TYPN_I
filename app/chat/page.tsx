@@ -1215,7 +1215,10 @@ export default function ChatPage() {
             onToggleSearch={() => {}}
             onToggleOnlineUsers={() => {}}
             onToggleLock={() => toast.error('Please sign in to manage channels')}
-            onAuthorizeUser={async () => toast.error('Please sign in to manage users')}
+            onAuthorizeUser={async () => {
+              toast.error('Please sign in to manage users')
+              return
+            }}
             isAuthenticated={false}
           />
 
