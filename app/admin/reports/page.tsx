@@ -33,30 +33,28 @@ import { toast } from 'sonner'
 import { Search, Loader2, MessageSquare } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 
+interface Message {
+  id: string
+  content: string
+  created_at: string
+}
+
 interface Report {
   id: string
-  reported_user: {
-    id: string
-    username: string
-  }
-  reporter: {
-    id: string
-    username: string
-  }
-  message: {
-    id: string
-    content: string
-    created_at: string
-  } | null
   reason: string
   status: 'pending' | 'resolved' | 'dismissed'
   created_at: string
-  resolved_at: string | null
-  resolved_by: {
+  reporter: {
     id: string
     username: string
+    avatar_url: string | null
   } | null
-  notes: string | null
+  reported_user: {
+    id: string
+    username: string
+    avatar_url: string | null
+  } | null
+  message: Message | null
 }
 
 export default function ReportsPage() {
@@ -158,16 +156,16 @@ export default function ReportsPage() {
         message_id: report.message_id,
         reported_user_id: report.reported_user_id,
         reporter_id: report.reporter_id,
-        reported_user: {
-          id: report.reported_user_id,
-          email: userMap[report.reported_user_id]?.email || 'Unknown',
-          username: userMap[report.reported_user_id]?.username || 'Unknown User'
-        },
-        reporter: {
-          id: report.reporter_id,
-          email: userMap[report.reporter_id]?.email || 'Unknown',
-          username: userMap[report.reporter_id]?.username || 'Unknown User'
-        },
+        reported_user: report.reported_user ? {
+          id: report.reported_user.id,
+          username: report.reported_user.username,
+          avatar_url: report.reported_user.avatar_url
+        } : null,
+        reporter: report.reporter ? {
+          id: report.reporter.id,
+          username: report.reporter.username,
+          avatar_url: report.reporter.avatar_url
+        } : null,
         message: report.message ? {
           id: report.message.id,
           content: report.message.content,
@@ -386,8 +384,8 @@ export default function ReportsPage() {
   // Filter out resolved reports by default
   const filteredReports = reports.filter(report => 
     (report.status === 'pending') && // Only show pending reports
-    (report.reported_user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    report.reporter.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (report.reported_user?.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    report.reporter?.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     report.reason.toLowerCase().includes(searchQuery.toLowerCase()))
   )
 
@@ -408,17 +406,17 @@ export default function ReportsPage() {
         variant="outline"
         size="sm"
         onClick={() => {
-          fetchUserMessages(report.reported_user.id)
+          fetchUserMessages(report.reported_user?.id || '')
           setShowMessageHistory(true)
         }}
       >
         <MessageSquare className="h-4 w-4" />
       </Button>
-      {bannedUsers.has(report.reported_user.id) ? (
+      {bannedUsers.has(report.reported_user?.id || '') ? (
         <Button
           variant="outline"
           size="sm"
-          onClick={() => handleUnbanUser(report.reported_user.id, report.reported_user.username)}
+          onClick={() => handleUnbanUser(report.reported_user?.id || '', report.reported_user?.username || '')}
           className="text-green-600 hover:text-green-700"
         >
           Unban User
@@ -427,7 +425,7 @@ export default function ReportsPage() {
         <Button
           variant="destructive"
           size="sm"
-          onClick={() => handleBanUser(report.reported_user.id, report.reported_user.username)}
+          onClick={() => handleBanUser(report.reported_user?.id || '', report.reported_user?.username || '')}
         >
           Ban User
         </Button>
@@ -473,10 +471,10 @@ export default function ReportsPage() {
               {filteredReports.map((report) => (
                 <TableRow key={report.id}>
                   <TableCell className="font-medium">
-                    {report.reported_user?.username || report.reported_user?.email || 'Unknown User'}
+                    {report.reported_user?.username || report.reported_user?.username || 'Unknown User'}
                   </TableCell>
                   <TableCell>
-                    {report.reporter?.username || report.reporter?.email || 'Unknown User'}
+                    {report.reporter?.username || report.reporter?.username || 'Unknown User'}
                   </TableCell>
                   <TableCell className="max-w-xs truncate">{report.reason}</TableCell>
                   <TableCell>
@@ -506,7 +504,7 @@ export default function ReportsPage() {
           <DialogHeader>
             <DialogTitle>Resolve Report</DialogTitle>
             <DialogDescription>
-              Review and resolve the report for user {selectedReport?.reported_user.username}
+              Review and resolve the report for user {selectedReport?.reported_user?.username}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -568,7 +566,7 @@ export default function ReportsPage() {
           <DialogHeader>
             <DialogTitle>Message History</DialogTitle>
             <DialogDescription>
-              Recent messages from {selectedReport?.reported_user.username}
+              Recent messages from {selectedReport?.reported_user?.username}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
