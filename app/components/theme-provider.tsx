@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
-import type { ThemeProviderProps as NextThemesProviderProps } from "next-themes/dist/types"
+import type { ThemeProviderProps as NextThemesProviderProps } from "next-themes"
 
 export interface ThemeProviderProps extends NextThemesProviderProps {
   children: React.ReactNode
