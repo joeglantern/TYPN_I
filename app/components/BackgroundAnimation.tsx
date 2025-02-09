@@ -35,6 +35,7 @@ const BackgroundAnimation = () => {
       color: string
 
       constructor() {
+        if (!canvas) return
         this.x = Math.random() * canvas.width
         this.y = Math.random() * canvas.height
         this.size = Math.random() * 8 + 2
@@ -44,6 +45,7 @@ const BackgroundAnimation = () => {
       }
 
       update() {
+        if (!canvas) return
         this.x += this.speedX
         this.y += this.speedY
 
@@ -60,18 +62,20 @@ const BackgroundAnimation = () => {
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
         ctx.fill()
       }
+
       connect() {
+        if (!ctx) return
         particles.forEach(particle => {
           const distance = Math.sqrt(
             (this.x - particle.x) ** 2 + (this.y - particle.y) ** 2
           )
           if (distance < 100) {
-            ctx!.beginPath()
-            ctx!.strokeStyle = this.color
-            ctx!.lineWidth = 0.2
-            ctx!.moveTo(this.x, this.y)
-            ctx!.lineTo(particle.x, particle.y)
-            ctx!.stroke()
+            ctx.beginPath()
+            ctx.strokeStyle = this.color
+            ctx.lineWidth = 0.2
+            ctx.moveTo(this.x, this.y)
+            ctx.lineTo(particle.x, particle.y)
+            ctx.stroke()
           }
         })
       }
@@ -84,7 +88,7 @@ const BackgroundAnimation = () => {
     }
 
     const animate = () => {
-      if (!ctx) return
+      if (!ctx || !canvas) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       particles.forEach((particle, index) => {
         particle.update()
