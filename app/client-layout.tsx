@@ -185,18 +185,17 @@ export default function ClientLayout({
                 </div>
                 <span className="font-bold text-xl">TYPNI</span>
               </Link>
-              <nav className="hidden md:flex items-center gap-6">
+              <nav className="hidden md:flex items-center space-x-4">
                 {navLinks.map((link) => {
                   const Icon = link.icon
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
-                      prefetch={true}
-                      className={`flex items-center gap-2 transition-colors ${
+                      className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                         pathname === link.href
-                          ? 'text-primary font-medium'
-                          : 'hover:text-primary'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-accent'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -207,7 +206,7 @@ export default function ClientLayout({
                 <ThemeToggle />
               </nav>
               <div className="md:hidden">
-                <MobileNav links={navLinks} currentPath={pathname} />
+                <MobileNav />
               </div>
             </div>
           </header>
