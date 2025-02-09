@@ -134,7 +134,7 @@ export default function BannedUsersPage() {
     fetchBannedUsers()
   }, [])
 
-  const handleUnban = async (userId: string, channelId?: string) => {
+  const handleUnban = async (userId: string, channelId: string | null) => {
     try {
       const reason = prompt('Enter reason for unbanning (optional):')
       
@@ -146,7 +146,7 @@ export default function BannedUsersPage() {
       const { error } = await supabase.rpc('unban_user', {
         p_user_id: userId,
         p_admin_id: session.user.id,
-        p_channel_id: channelId,
+        p_channel_id: channelId || undefined,
         p_unban_reason: reason || null
       })
 
