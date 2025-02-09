@@ -91,27 +91,30 @@ export default function ChatPage() {
           setSession(session)
           
           // Then fetch all required data in parallel
-          const [profileResult, channelsResult] = await Promise.all([
-            fetchUserProfile(session.user.id),
-            supabase.from('channels').select('*').order('name')
-          ])
+          if (session?.user?.id) {
+            const [profileResult, channelsResult] = await Promise.all([
+              fetchUserProfile(session.user.id),
+              supabase.from('channels').select('*').order('name')
+            ])
 
-          if (!mounted) return;
+            if (!mounted) return;
 
-          // Set user profile and admin status
-          setUserProfile(profileResult)
-          setIsAdmin(profileResult?.role === 'admin')
-          
-          // Set channels and initial channel
-          if (channelsResult.data?.length > 0) {
-            setChannels(channelsResult.data)
-            if (!currentChannel) {
-              setCurrentChannel(channelsResult.data[0].id)
+            // Set user profile and admin status
+            setUserProfile(profileResult)
+            setIsAdmin(profileResult?.role === 'admin')
+            
+            // Set channels and initial channel
+            const channels = channelsResult.data ?? []
+            if (channels.length > 0) {
+              setChannels(channels)
+              if (!currentChannel) {
+                setCurrentChannel(channels[0].id)
+              }
             }
-          }
 
-          // Emit auth state change event
-          emitAuthStateChange(session, profileResult?.role === 'admin')
+            // Emit auth state change event
+            emitAuthStateChange(session, profileResult?.role === 'admin')
+          }
         } catch (error) {
           console.error('Error initializing after sign in:', error)
           toast.error('Error loading chat data')
@@ -155,9 +158,10 @@ export default function ChatPage() {
           setIsAdmin(profileResult?.role === 'admin')
           
           // Set channels
-          if (channelsResult.data?.length > 0) {
-            setChannels(channelsResult.data)
-            setCurrentChannel(channelsResult.data[0].id)
+          const channels = channelsResult.data ?? []
+          if (channels.length > 0) {
+            setChannels(channels)
+            setCurrentChannel(channels[0].id)
           }
         } else {
           // For non-authenticated users, just fetch channels
