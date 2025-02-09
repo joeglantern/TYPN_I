@@ -106,7 +106,7 @@ export default function ChatPage() {
             // Set channels and initial channel
             const channels = channelsResult.data ?? []
             if (channels.length > 0) {
-              setChannels(channels)
+              setChannels(channels as Channel[])
               if (!currentChannel) {
                 setCurrentChannel(channels[0].id)
               }
@@ -160,7 +160,7 @@ export default function ChatPage() {
           // Set channels
           const channels = channelsResult.data ?? []
           if (channels.length > 0) {
-            setChannels(channels)
+            setChannels(channels as Channel[])
             setCurrentChannel(channels[0].id)
           }
         } else {
@@ -172,8 +172,8 @@ export default function ChatPage() {
 
           if (!mounted) return;
           
-          if (channels?.length > 0) {
-            setChannels(channels)
+          if (channels && Array.isArray(channels) && channels.length > 0) {
+            setChannels(channels as Channel[])
             setCurrentChannel(channels[0].id)
           }
         }
