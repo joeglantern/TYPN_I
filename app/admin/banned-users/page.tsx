@@ -21,13 +21,13 @@ interface BannedUserRaw {
   user: {
     username: string
     avatar_url: string | null
-  } | null
+  }[]
   admin: {
     username: string
-  } | null
+  }[]
   channel: {
     name: string
-  } | null
+  }[]
 }
 
 interface BannedUser {
@@ -114,10 +114,10 @@ export default function BannedUsersPage() {
         reason: user.reason,
         created_at: user.created_at,
         channel_id: user.channel_id,
-        username: user.user?.username || 'Unknown User',
-        avatar_url: user.user?.avatar_url || null,
-        admin_name: user.admin?.username || 'Unknown Admin',
-        channel_name: user.channel?.name
+        username: user.user[0]?.username || 'Unknown User',
+        avatar_url: user.user[0]?.avatar_url || null,
+        admin_name: user.admin[0]?.username || 'Unknown Admin',
+        channel_name: user.channel[0]?.name
       }))
 
       console.log('Formatted banned users:', formattedBannedUsers)
