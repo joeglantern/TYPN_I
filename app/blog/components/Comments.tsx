@@ -39,6 +39,23 @@ interface Comment {
   }
 }
 
+interface DatabaseComment {
+  id: number
+  content: string
+  created_at: string
+  updated_at: string
+  user_id: string
+  parent_id: number | null
+  is_edited: boolean
+  author_name: string | null
+  author_avatar_url: string | null
+  likes: { user_id: string }[]
+  user_profile: {
+    full_name: string
+    avatar_url: string
+  } | null
+}
+
 interface CommentsProps {
   blogId: number
 }
@@ -92,7 +109,7 @@ export function Comments({ blogId }: CommentsProps) {
       }
 
       // Transform the data to include like information and profile data
-      const transformedData = commentsData.map(comment => ({
+      const transformedData = (commentsData as DatabaseComment[]).map((comment: DatabaseComment) => ({
         id: comment.id,
         content: comment.content,
         created_at: comment.created_at,
@@ -100,10 +117,10 @@ export function Comments({ blogId }: CommentsProps) {
         user_id: comment.user_id,
         parent_id: comment.parent_id,
         is_edited: comment.is_edited,
-        author_name: comment.author_name || comment.user_profile?.full_name,
+        author_name: comment.author_name || comment.user_profile?.full_name || 'Unknown',
         author_avatar_url: comment.author_avatar_url || comment.user_profile?.avatar_url,
         likes: comment.likes?.length || 0,
-        liked_by_user: session ? comment.likes?.some((like: any) => like.user_id === session.user.id) : false,
+        liked_by_user: session ? comment.likes?.some((like) => like.user_id === session.user.id) : false,
         profile: comment.user_profile || null
       }))
 
