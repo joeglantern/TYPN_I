@@ -8,12 +8,15 @@ const nextConfig = {
         hostname: 'hbprwrzwhrkxvldwinti.supabase.co',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
+        protocol: 'https',
+        hostname: '*.vercel.app',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      }
     ],
     unoptimized: false,
-    domains: ['hbprwrzwhrkxvldwinti.supabase.co'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

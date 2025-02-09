@@ -225,7 +225,7 @@ export default function ProgramsPage() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <Badge variant={
-                      program.status === 'Active' ? 'success' :
+                      program.status === 'Active' ? 'default' :
                       'default'
                     }>
                     {program.status}
