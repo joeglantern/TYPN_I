@@ -2,7 +2,6 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import type { CookieOptions } from '@supabase/ssr'
-import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url)
@@ -22,11 +21,11 @@ export async function GET(request: Request) {
             cookieStore.set(name, value, options as any)
           },
           remove(name: string, options: CookieOptions) {
-            cookieStore.delete(name, {
+            cookieStore.set(name, '', {
               ...options,
               maxAge: 0,
               path: '/'
-            } as Omit<ResponseCookie, "value" | "expires">)
+            })
           },
         },
       }
