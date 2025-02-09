@@ -17,19 +17,18 @@ import { ThemeToggle } from "./theme-toggle"
 import { cn } from "@/lib/utils"
 import { supabase } from "@/lib/supabase"
 import { Home, Book, Calendar, Edit, Image as ImageIcon, MessageCircle, Info, Mail, User, Settings } from 'lucide-react'
+import { LucideIcon } from 'lucide-react'
 
-const links = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/programs', label: 'Programs', icon: Book },
-  { href: '/events', label: 'Events', icon: Calendar },
-  { href: '/blog', label: 'Blog', icon: Edit },
-  { href: '/gallery', label: 'Gallery', icon: ImageIcon },
-  { href: '/chat', label: 'Chat', icon: MessageCircle },
-  { href: '/about', label: 'About', icon: Info },
-  { href: '/contact', label: 'Contact', icon: Mail },
-]
+interface MobileNavProps {
+  links: Array<{
+    href: string
+    label: string
+    icon: LucideIcon
+  }>
+  currentPath: string
+}
 
-export function MobileNav() {
+export function MobileNav({ links, currentPath }: MobileNavProps) {
   const [open, setOpen] = React.useState(false)
   const [session, setSession] = React.useState<any>(null)
   const [isAdmin, setIsAdmin] = React.useState(false)
