@@ -24,6 +24,15 @@ interface Announcement {
   updated_at: string | null
 }
 
+type FormData = {
+  title: string
+  content: string
+  status: 'active' | 'inactive'
+  priority: 'low' | 'normal' | 'high' | 'urgent'
+  start_date: string
+  end_date: string
+}
+
 const PRIORITIES = [
   { value: 'low', label: 'Low' },
   { value: 'normal', label: 'Normal' },
@@ -38,11 +47,11 @@ export default function AnnouncementsPage() {
   const [editingAnnouncement, setEditingAnnouncement] = useState<Announcement | null>(null)
   const { toast } = useToast()
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     content: '',
-    status: 'active' as const,
-    priority: 'normal' as const,
+    status: 'active',
+    priority: 'normal',
     start_date: new Date().toISOString().split('T')[0],
     end_date: ''
   })
