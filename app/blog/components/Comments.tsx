@@ -118,7 +118,7 @@ export function Comments({ blogId }: CommentsProps) {
         parent_id: comment.parent_id,
         is_edited: comment.is_edited,
         author_name: comment.author_name || comment.user_profile?.full_name || 'Unknown',
-        author_avatar_url: comment.author_avatar_url || comment.user_profile?.avatar_url,
+        author_avatar_url: comment.author_avatar_url || comment.user_profile?.avatar_url || null,
         likes: comment.likes?.length || 0,
         liked_by_user: session ? comment.likes?.some((like) => like.user_id === session.user.id) : false,
         profile: comment.user_profile || null,
