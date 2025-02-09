@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Menu, X, Home, Calendar, BookOpen, HeartHandshake, Info, Briefcase, Mail, Heart, Users, LogIn, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/events', label: 'Events', icon: Calendar },
@@ -22,13 +23,26 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[100] w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-200",
+      scrolled 
+        ? "bg-background/80 backdrop-blur-md border-b shadow-sm"
+        : "bg-background/60 backdrop-blur-sm"
+    )}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2">
@@ -43,7 +57,7 @@ export default function Header() {
               />
               <div className="absolute -inset-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full opacity-20 blur-2xl animate-pulse" />
             </div>
-            <span className="text-2xl font-bold text-white">TYPNI</span>
+            <span className="text-2xl font-bold text-foreground">TYPNI</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -52,7 +66,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-white/80 hover:text-white transition-colors flex items-center space-x-1"
+                className="text-foreground/80 hover:text-foreground transition-colors flex items-center space-x-1"
               >
                 <item.icon size={16} />
                 <span>{item.label}</span>
@@ -63,7 +77,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="text-white/80 hover:text-white"
+                className="text-foreground/80 hover:text-foreground"
               >
                 {theme === 'dark' ? (
                   <Sun className="h-5 w-5" />
@@ -72,7 +86,7 @@ export default function Header() {
                 )}
               </Button>
             )}
-            <Button asChild variant="outline" className="text-white border-white/20 hover:bg-white/10">
+            <Button asChild variant="outline" className="border-foreground/20 hover:bg-foreground/10">
               <Link href="/profile">Profile</Link>
             </Button>
           </nav>
@@ -84,7 +98,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="text-white/80 hover:text-white"
+                className="text-foreground/80 hover:text-foreground"
               >
                 {theme === 'dark' ? (
                   <Sun className="h-5 w-5" />
@@ -97,7 +111,7 @@ export default function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white/80 hover:text-white"
+              className="text-foreground/80 hover:text-foreground"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -112,14 +126,14 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-white/80 hover:text-white transition-colors flex items-center space-x-2 px-2 py-1"
+                  className="text-foreground/80 hover:text-foreground transition-colors flex items-center space-x-2 px-2 py-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <item.icon size={18} />
                   <span>{item.label}</span>
                 </Link>
               ))}
-              <Button asChild variant="outline" className="text-white border-white/20 hover:bg-white/10">
+              <Button asChild variant="outline" className="border-foreground/20 hover:bg-foreground/10">
                 <Link href="/profile">Profile</Link>
               </Button>
             </nav>
