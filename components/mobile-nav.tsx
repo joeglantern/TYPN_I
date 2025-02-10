@@ -24,6 +24,7 @@ const links = [
   { href: '/blog', label: 'Blog', icon: 'edit' },
   { href: '/gallery', label: 'Gallery', icon: 'image' },
   { href: '/chat', label: 'Chat', icon: 'message-circle' },
+  { href: '/polls', label: 'Polls', icon: 'bar-chart' },
   { href: '/about', label: 'About', icon: 'info' },
   { href: '/contact', label: 'Contact', icon: 'mail' },
 ]
