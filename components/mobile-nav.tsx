@@ -3,7 +3,18 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu } from "lucide-react"
+import { 
+  Menu,
+  Home,
+  Book,
+  Calendar,
+  Edit,
+  Image as ImageIcon,
+  MessageCircle,
+  BarChart,
+  Info,
+  Mail
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import {
@@ -18,15 +29,15 @@ import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 
 const links = [
-  { href: '/', label: 'Home', icon: 'home' },
-  { href: '/programs', label: 'Programs', icon: 'book' },
-  { href: '/events', label: 'Events', icon: 'calendar' },
-  { href: '/blog', label: 'Blog', icon: 'edit' },
-  { href: '/gallery', label: 'Gallery', icon: 'image' },
-  { href: '/chat', label: 'Chat', icon: 'message-circle' },
-  { href: '/polls', label: 'Polls', icon: 'bar-chart' },
-  { href: '/about', label: 'About', icon: 'info' },
-  { href: '/contact', label: 'Contact', icon: 'mail' },
+  { href: '/', label: 'Home', Icon: Home },
+  { href: '/programs', label: 'Programs', Icon: Book },
+  { href: '/events', label: 'Events', Icon: Calendar },
+  { href: '/blog', label: 'Blog', Icon: Edit },
+  { href: '/gallery', label: 'Gallery', Icon: ImageIcon },
+  { href: '/chat', label: 'Chat', Icon: MessageCircle },
+  { href: '/polls', label: 'Polls', Icon: BarChart },
+  { href: '/about', label: 'About', Icon: Info },
+  { href: '/contact', label: 'Contact', Icon: Mail },
 ]
 
 export function MobileNav() {
@@ -94,8 +105,8 @@ export function MobileNav() {
                       : "hover:bg-accent"
                   )}
                 >
-                  <span className={`lucide lucide-${link.icon}`} />
-                {link.label}
+                  <link.Icon className="h-5 w-5" />
+                  {link.label}
                 </Link>
               ))}
             </div>
