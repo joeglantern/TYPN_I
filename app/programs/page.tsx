@@ -26,6 +26,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { format } from 'date-fns'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ClientBoundary } from '@/components/client-boundary'
 
 interface Program {
   id: string
@@ -52,13 +54,15 @@ interface Program {
 
 // Move the main content to a separate client component
 function ProgramsContent() {
+  const searchParams = useSearchParams()
   const [programs, setPrograms] = useState<Program[]>([])
   const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
   const [filterCategory, setFilterCategory] = useState('all')
   const [filterLevel, setFilterLevel] = useState('all')
   const [filterFormat, setFilterFormat] = useState('all')
   const [sortBy, setSortBy] = useState<'date'>('date')
+  const router = useRouter()
 
   useEffect(() => {
     fetchPrograms()
@@ -302,14 +306,8 @@ function ProgramsContent() {
 // Default export becomes a simple wrapper with Suspense
 export default function ProgramsPage() {
   return (
-    <Suspense 
-      fallback={
-        <div className="flex h-[50vh] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      }
-    >
+    <ClientBoundary>
       <ProgramsContent />
-    </Suspense>
+    </ClientBoundary>
   )
 }

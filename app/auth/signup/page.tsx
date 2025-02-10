@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { ClientBoundary } from '@/components/client-boundary'
 
 interface FormData {
   username: string
@@ -17,7 +18,7 @@ interface FormData {
   password: string
 }
 
-export default function SignUpPage() {
+function SignUpContent() {
   const [formData, setFormData] = useState<FormData>({
     username: '',
     email: '',
@@ -161,5 +162,13 @@ export default function SignUpPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function SignUpPage() {
+  return (
+    <ClientBoundary>
+      <SignUpContent />
+    </ClientBoundary>
   )
 } 

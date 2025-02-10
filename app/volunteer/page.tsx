@@ -7,8 +7,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { HeartHandshake, Globe, Users, Loader2, Send, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ClientBoundary } from '@/components/client-boundary'
 
-export default function VolunteerPage() {
+function VolunteerContent() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -169,5 +170,13 @@ export default function VolunteerPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function VolunteerPage() {
+  return (
+    <ClientBoundary>
+      <VolunteerContent />
+    </ClientBoundary>
   )
 }

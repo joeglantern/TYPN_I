@@ -7,13 +7,13 @@ import { cn } from '@/lib/utils'
 import { MainNav } from '@/app/components/main-nav'
 import { MobileNav } from '@/app/components/mobile-nav'
 import { Footer } from '@/app/components/Footer'
-
+import { ClientBoundary } from '@/components/client-boundary'
 
 interface LayoutWrapperProps {
   children: React.ReactNode
 }
 
-export function LayoutWrapper({ children }: LayoutWrapperProps) {
+function LayoutWrapperContent({ children }: LayoutWrapperProps) {
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -96,5 +96,13 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
         {!isChatRoute && <Footer />}
       </div>
     </div>
+  )
+}
+
+export function LayoutWrapper({ children }: LayoutWrapperProps) {
+  return (
+    <ClientBoundary>
+      <LayoutWrapperContent>{children}</LayoutWrapperContent>
+    </ClientBoundary>
   )
 } 

@@ -9,8 +9,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import { ClientBoundary } from '@/components/client-boundary'
 
-export default function RegisterPage() {
+function RegisterContent() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -108,5 +109,13 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <ClientBoundary>
+      <RegisterContent />
+    </ClientBoundary>
   )
 } 

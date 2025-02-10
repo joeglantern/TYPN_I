@@ -11,6 +11,7 @@ import { Loader2, Camera, LogOut } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { ClientBoundary } from '@/components/client-boundary'
 
 interface Profile {
   id: string
@@ -19,7 +20,7 @@ interface Profile {
   email: string
 }
 
-export default function ProfilePage() {
+function ProfileContent() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
@@ -279,5 +280,13 @@ export default function ProfilePage() {
         </Card>
       </motion.div>
     </div>
+  )
+}
+
+export default function ProfilePage() {
+  return (
+    <ClientBoundary>
+      <ProfileContent />
+    </ClientBoundary>
   )
 } 

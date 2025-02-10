@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2, Send, MapPin, Phone, Mail } from 'lucide-react'
+import { ClientBoundary } from '@/components/client-boundary'
 
-export default function ContactPage() {
+function ContactContent() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,5 +93,13 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ContactPage() {
+  return (
+    <ClientBoundary>
+      <ContactContent />
+    </ClientBoundary>
   )
 }

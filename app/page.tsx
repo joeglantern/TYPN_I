@@ -14,6 +14,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Footer } from "./components/Footer"
 import { Suspense } from 'react'
+import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
+import { ClientBoundary } from '@/components/client-boundary'
 
 interface Event {
   id: number
@@ -65,6 +68,8 @@ function HomeContent() {
   const [isSoundLoaded, setIsSoundLoaded] = useState(false)
   const clockAudioRef = useRef<HTMLAudioElement | null>(null)
   const [isClockSoundPlaying, setIsClockSoundPlaying] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     checkAuth()
@@ -750,14 +755,8 @@ function HomeContent() {
 // Default export becomes a simple wrapper with Suspense
 export default function HomePage() {
   return (
-    <Suspense 
-      fallback={
-        <div className="flex h-[50vh] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      }
-    >
+    <ClientBoundary>
       <HomeContent />
-    </Suspense>
+    </ClientBoundary>
   )
 } 

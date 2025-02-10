@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Loader2, DollarSign, Heart } from 'lucide-react'
+import { ClientBoundary } from '@/components/client-boundary'
 
-export default function DonatePage() {
+function DonateContent() {
   const [amount, setAmount] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -68,5 +69,13 @@ export default function DonatePage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function DonatePage() {
+  return (
+    <ClientBoundary>
+      <DonateContent />
+    </ClientBoundary>
   )
 }

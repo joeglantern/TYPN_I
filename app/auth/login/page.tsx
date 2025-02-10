@@ -10,8 +10,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import confetti from 'canvas-confetti'
+import { ClientBoundary } from '@/components/client-boundary'
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -144,5 +145,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <ClientBoundary>
+      <LoginContent />
+    </ClientBoundary>
   )
 } 
