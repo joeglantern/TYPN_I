@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -40,7 +40,7 @@ interface User {
   last_sign_in_at: string | null
 }
 
-export default function UsersPage() {
+function UsersContent() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
@@ -275,5 +275,19 @@ export default function UsersPage() {
         </DialogContent>
       </Dialog>
     </div>
+  )
+}
+
+export default function UsersPage() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="flex h-[50vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <UsersContent />
+    </Suspense>
   )
 } 

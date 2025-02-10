@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Globe, Users, Lightbulb, MessageCircle, Calendar, Award, BookOpen, Network, ArrowRight, Bell, MessagesSquare, ChevronLeft, ChevronRight, Users2, Rocket, Target } from "lucide-react"
+import { Globe, Users, Lightbulb, MessageCircle, Calendar, Award, BookOpen, Network, ArrowRight, Bell, MessagesSquare, ChevronLeft, ChevronRight, Users2, Rocket, Target, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { EventsCalendar } from "@/components/events-calendar"
 import Image from "next/image"
@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Footer } from "./components/Footer"
+import { Suspense } from 'react'
 
 interface Event {
   id: number
@@ -50,7 +51,8 @@ interface Testimonial {
   created_at: string
 }
 
-export default function HomePage() {
+// Move the main content to a separate client component
+function HomeContent() {
   const [events, setEvents] = useState<Event[]>([])
   const [gallery, setGallery] = useState<GalleryItem[]>([])
   const [programs, setPrograms] = useState<Program[]>([])
@@ -742,5 +744,20 @@ export default function HomePage() {
       {/* Audio element for rocket sound */}
       <audio id="rocket-sound" src="/sounds/rocket-launch.mp3" preload="auto" />
     </div>
+  )
+}
+
+// Default export becomes a simple wrapper with Suspense
+export default function HomePage() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="flex h-[50vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <HomeContent />
+    </Suspense>
   )
 } 

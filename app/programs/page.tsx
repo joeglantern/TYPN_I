@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
@@ -50,7 +50,8 @@ interface Program {
   registration_deadline: string
 }
 
-export default function ProgramsPage() {
+// Move the main content to a separate client component
+function ProgramsContent() {
   const [programs, setPrograms] = useState<Program[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
@@ -103,8 +104,8 @@ export default function ProgramsPage() {
 
   if (loading) {
     return (
-      <div className="flex h-[50vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">No programs found matching your criteria.</p>
       </div>
     )
   }
@@ -295,5 +296,20 @@ export default function ProgramsPage() {
         </div>
       )}
     </div>
+  )
+}
+
+// Default export becomes a simple wrapper with Suspense
+export default function ProgramsPage() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="flex h-[50vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <ProgramsContent />
+    </Suspense>
   )
 }
