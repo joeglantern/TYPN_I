@@ -60,12 +60,32 @@ function LoginContent() {
     setError(null)
 
     try {
+      // Log the credentials being used (email only for security)
+      console.log('Attempting login with email:', formData.email.trim())
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email.trim(),
         password: formData.password
       })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase auth error:', {
+          message: error.message,
+          status: error.status,
+          name: error.name
+        })
+        throw error
+      }
+
+      if (!data?.user) {
+        console.error('No user data returned')
+        throw new Error('No user data returned')
+      }
+
+      console.log('Login successful:', {
+        userId: data.user.id,
+        email: data.user.email
+      })
 
       // Successful login - redirect to home page
       router.push('/')
