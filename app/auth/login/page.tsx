@@ -22,36 +22,9 @@ function LoginContent() {
   })
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        // Trigger confetti
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        })
-        
-        // Show welcome message
-        const welcomeMessage = document.createElement('div')
-        welcomeMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in'
-        welcomeMessage.textContent = 'Welcome back! 🎉'
-        document.body.appendChild(welcomeMessage)
-        
-        // Remove message after 3 seconds
-        setTimeout(() => {
-          welcomeMessage.remove()
-        }, 3000)
-
-        // Redirect after a short delay to allow confetti to show
-        setTimeout(() => {
-          router.push('/')
-        }, 1000)
-      }
-    })
-
-    return () => {
-      authListener.subscription.unsubscribe()
-    }
+    // Check if Supabase is properly initialized
+    console.log('Checking Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Not set')
+    console.log('Checking Supabase Key:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Not set')
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,8 +33,13 @@ function LoginContent() {
     setError(null)
 
     try {
-      // Log the credentials being used (email only for security)
-      console.log('Attempting login with email:', formData.email.trim())
+      // Validate input
+      if (!formData.email.trim() || !formData.password) {
+        throw new Error('Please fill in all fields')
+      }
+
+      // Log attempt (email only for security)
+      console.log('Login attempt:', { email: formData.email.trim() })
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email.trim(),
@@ -69,7 +47,7 @@ function LoginContent() {
       })
 
       if (error) {
-        console.error('Supabase auth error:', {
+        console.error('Auth error details:', {
           message: error.message,
           status: error.status,
           name: error.name
@@ -82,16 +60,14 @@ function LoginContent() {
         throw new Error('No user data returned')
       }
 
-      console.log('Login successful:', {
-        userId: data.user.id,
-        email: data.user.email
-      })
+      // Log success (without sensitive info)
+      console.log('Login successful for:', data.user.email)
 
-      // Successful login - redirect to home page
+      // Show success message and redirect
       router.push('/')
     } catch (error: any) {
       console.error('Login error:', error)
-      setError(error.message || 'Failed to sign in')
+      setError(error.message || 'Failed to sign in. Please check your credentials.')
     } finally {
       setLoading(false)
     }

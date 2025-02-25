@@ -281,16 +281,21 @@ function HomeContent() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/4 -left-4 w-96 h-96 bg-pink-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
-          <div className="absolute -bottom-8 left-1/2 w-96 h-96 bg-yellow-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
-          <div className="absolute top-1/3 -right-4 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 70%,transparent 100%)" />
+        {/* Video Background */}
+        <div className="absolute inset-0 w-full -z-10">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover brightness-100"
+          >
+            <source src="/Geometric colorful Background.mp4" type="video/mp4" />
+          </video>
         </div>
 
-        <div className="container px-4 py-16 relative">
-          <div className="text-center max-w-3xl mx-auto">
+        <div className="w-full relative z-20">
+          <div className="text-center max-w-3xl mx-auto px-4">
             <div className="relative mb-8 inline-block scroll-reveal scale-up">
               <Image
                 src="/logo.png"
@@ -305,44 +310,62 @@ function HomeContent() {
             </div>
             
             <h1 className="text-6xl font-bold mb-6 scroll-reveal fade-up">
-              <span className="block text-7xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 mb-4">
+              <span className="block text-7xl text-[#ffffff] mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
                 Niaje!
               </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
+              <span className="text-[#ffffff] drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
                 Connect. Empower. Change.
               </span>
             </h1>
             
-            <p className="text-xl text-muted-foreground mb-8 scroll-reveal fade-up delay-200">
+            <p className="text-xl text-[#ffffff] mb-8 scroll-reveal fade-up delay-200 drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
               Empowering youth through global connections and opportunities. Join our mission to create positive change in communities worldwide.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 scroll-reveal fade-up delay-300">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <Button asChild size="lg" className="w-full sm:w-auto group bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:opacity-90 transition-opacity">
-                  <Link href={isAuthenticated ? "/volunteer" : "/auth/login"}>
-                    {isAuthenticated ? "Start Volunteering" : "Sign In"}
-                    <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                <Button 
+                  asChild 
+                  size="lg" 
+                  className="w-full sm:w-auto bg-[#dc2626] hover:bg-[#dc2626]/90 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+                >
+                  <Link href={isAuthenticated ? "/volunteer" : "/membership"}>
+                    {isAuthenticated ? "Start Volunteering" : "Register Now"}
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto group">
+                <Button 
+                  asChild 
+                  size="lg" 
+                  variant="outline"
+                  className="w-full sm:w-auto border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm"
+                >
                   <Link href="/about">
                     Learn More
-                    <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto group">
+                <Button 
+                  asChild 
+                  size="lg" 
+                  variant="outline"
+                  className="w-full sm:w-auto border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm"
+                >
                   <Link href="/announcements">
                     Announcements
-                    <Bell className="ml-2 w-5 h-5 animate-bounce" />
+                    <Bell className="ml-2 h-5 w-5 animate-bounce" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto group bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:opacity-90 transition-opacity">
+                <Button 
+                  asChild 
+                  size="lg" 
+                  className="w-full sm:w-auto bg-[#dc2626] hover:bg-[#dc2626]/90 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+                >
                   <Link href="/chat">
                     Join Chat
-                    <MessagesSquare className="ml-2 w-5 h-5 animate-bounce" />
+                    <MessagesSquare className="ml-2 h-5 w-5 animate-bounce" />
                   </Link>
                 </Button>
               </div>
@@ -375,100 +398,168 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* Features Section with Enhanced Scroll Animations */}
+      {/* Statistics Section with Animated Counters */}
       <section className="container px-4 py-24">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-blue-500 scroll-reveal fade-up">
-            Why Choose TYPNI?
+            Our Global Impact
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto scroll-reveal fade-up delay-200">
-            Join a community that empowers youth and drives positive change globally
+            Making a difference across the world, one connection at a time
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {[
-          {
-            title: "Community Forums",
-              description: "Connect with like-minded individuals and share your ideas in our vibrant community spaces.",
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              title: "Active Members",
+              startValue: 1000,
+              endValue: 5000,
               icon: Users2,
               gradient: "from-blue-500 to-cyan-500",
-              animation: "hover:rotate-6"
-          },
-          {
-            title: "Global Events",
-              description: "Participate in workshops, webinars, and conferences with participants from around the world.",
+              speed: 2000
+            },
+            {
+              title: "Countries Reached",
+              startValue: 10,
+              endValue: 50,
               icon: Globe,
               gradient: "from-purple-500 to-pink-500",
-              animation: "hover:-rotate-6"
-          },
-          {
-            title: "Skill Development",
-              description: "Access curated resources and courses to enhance your abilities and grow professionally.",
+              speed: 3000
+            },
+            {
+              title: "Ongoing Projects",
+              startValue: 100,
+              endValue: 300,
               icon: Target,
               gradient: "from-orange-500 to-red-500",
-              animation: "hover:rotate-6"
-          },
-          {
-            title: "Innovative Projects",
-              description: "Collaborate on cutting-edge initiatives that create real impact in communities.",
-              icon: Rocket,
+              speed: 2500
+            },
+            {
+              title: "Lives Impacted",
+              startValue: 2000,
+              endValue: 10000,
+              icon: Award,
               gradient: "from-green-500 to-emerald-500",
-              animation: "hover:-rotate-6"
-          },
-          {
-            title: "Cultural Exchange",
-              description: "Broaden your horizons through meaningful international connections and experiences.",
-            icon: Globe,
-              gradient: "from-indigo-500 to-purple-500",
-              animation: "hover:rotate-6"
-          },
-          {
-            title: "Leadership Opportunities",
-              description: "Take charge and lead impactful community projects that make a difference.",
-            icon: Award,
-              gradient: "from-pink-500 to-rose-500",
-              animation: "hover:-rotate-6"
-          },
-        ].map((feature, index) => (
-            <div 
-            key={feature.title}
-            className={cn(
-                "group relative overflow-hidden rounded-xl border bg-gradient-to-b from-background/50 to-background/10 p-8 hover:shadow-2xl transition-all duration-500",
-                "hover:-translate-y-2 transform-gpu perspective-1000",
-                feature.animation,
-                "scroll-reveal",
-                index % 2 === 0 ? "slide-in-left" : "slide-in-right",
-                `delay-${(index + 1) * 100}`
-              )}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500"
-                   style={{
-                     background: `linear-gradient(to bottom right, var(--${feature.gradient.split('-')[1]}-500), var(--${feature.gradient.split('-')[2]}))`
-                   }} />
+              speed: 1500
+            }
+          ].map((stat, index) => {
+            const [count, setCount] = useState(stat.startValue);
+            const [isIncreasing, setIsIncreasing] = useState(true);
+            
+            useEffect(() => {
+              const interval = setInterval(() => {
+                setCount(current => {
+                  if (isIncreasing) {
+                    if (current >= stat.endValue) {
+                      setIsIncreasing(false);
+                      return current - 1;
+                    }
+                    return current + 1;
+                  } else {
+                    if (current <= stat.startValue) {
+                      setIsIncreasing(true);
+                      return current + 1;
+                    }
+                    return current - 1;
+                  }
+                });
+              }, stat.speed / (stat.endValue - stat.startValue));
               
-              <div className="relative z-10">
-                <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary/20 group-hover:scale-110 transition-transform duration-500 bg-gradient-to-br from-background to-muted">
-                  <feature.icon 
-                    className={cn(
-                      "w-8 h-8 transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-12",
-                      "text-foreground"
-                    )} 
-                  />
-                </div>
-                
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
-                <p className="text-muted-foreground group-hover:text-foreground/90 transition-colors duration-300">{feature.description}</p>
-              </div>
+              return () => clearInterval(interval);
+            }, [isIncreasing]);
 
-              {/* 3D Hover Effect Highlights */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-                <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-primary to-transparent" />
-                <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-primary to-transparent" />
+            return (
+              <div 
+                key={stat.title}
+                className={cn(
+                  "group relative overflow-hidden rounded-3xl p-8",
+                  "hover:-translate-y-2 transform-gpu transition-all duration-500",
+                  "bg-gradient-to-br from-background via-background/95 to-background/90",
+                  "border border-primary/10 hover:border-primary/30",
+                  "backdrop-blur-xl shadow-lg hover:shadow-2xl",
+                  "flex flex-col items-center text-center",
+                  "scroll-reveal",
+                  index % 2 === 0 ? "slide-in-left" : "slide-in-right",
+                  `delay-${(index + 1) * 100}`
+                )}
+              >
+                {/* Gradient Background */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500"
+                  style={{
+                    background: `linear-gradient(135deg, var(--${stat.gradient.split('-')[1]}-500), var(--${stat.gradient.split('-')[2]}))`
+                  }}
+                />
+                
+                {/* Glowing Orbs */}
+                <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-30 transition-all duration-500"
+                     style={{
+                       background: `linear-gradient(135deg, var(--${stat.gradient.split('-')[1]}-500), var(--${stat.gradient.split('-')[2]}))`
+                     }}
+                />
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-30 transition-all duration-500"
+                     style={{
+                       background: `linear-gradient(315deg, var(--${stat.gradient.split('-')[1]}-500), var(--${stat.gradient.split('-')[2]}))`
+                     }}
+                />
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  {/* Icon */}
+                  <div className="mb-6 p-4 rounded-2xl border-2 border-primary/20 group-hover:scale-110 transition-transform duration-500 bg-gradient-to-br from-background/95 to-background/80">
+                    <stat.icon className="w-8 h-8 text-primary transform transition-all duration-500 group-hover:rotate-12" />
+                  </div>
+                  
+                  {/* Counter */}
+                  <div className="relative mb-4">
+                    <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary to-primary/80">
+                      <span className="inline-block tabular-nums group-hover:scale-110 transition-transform duration-500">
+                        {count.toLocaleString()}
+                      </span>
+                      <span className="inline-block ml-1 animate-pulse">+</span>
+                    </div>
+                    <div className="absolute -inset-2 bg-primary/5 rounded-lg blur-lg group-hover:bg-primary/10 transition-colors duration-500" />
+                  </div>
+                  
+                  {/* Title */}
+                  <h3 className="text-xl font-bold text-foreground/90 group-hover:text-primary transition-colors duration-300 mb-3">
+                    {stat.title}
+                  </h3>
+                  
+                  {/* Animated Indicator */}
+                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                    <span>{isIncreasing ? "Growing" : "Recounting"}</span>
+                    <div className="flex space-x-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" 
+                            style={{ animationDuration: '1s', animationDelay: '0s' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" 
+                            style={{ animationDuration: '1s', animationDelay: '0.2s' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" 
+                            style={{ animationDuration: '1s', animationDelay: '0.4s' }} />
+                    </div>
+                  </div>
+
+                  {/* Progress Ring */}
+                  <div className="mt-4 relative w-full h-1 bg-primary/10 rounded-full overflow-hidden">
+                    <div 
+                      className="absolute inset-0 transition-transform duration-1000 ease-in-out"
+                      style={{
+                        background: `linear-gradient(to right, var(--${stat.gradient.split('-')[1]}-500), var(--${stat.gradient.split('-')[2]}))`,
+                        transform: `translateX(${((count - stat.startValue) / (stat.endValue - stat.startValue)) * 100}%)`
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Border Glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                  <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+                  <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

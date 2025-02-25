@@ -12,6 +12,7 @@ const navItems = [
   { href: '/events', label: 'Events', icon: Calendar },
   { href: '/blog', label: 'Blog', icon: BookOpen },
   { href: '/volunteer', label: 'Volunteer', icon: HeartHandshake },
+  { href: '/membership', label: 'Membership', icon: Users },
   { href: '/about', label: 'About', icon: Info },
   { href: '/programs', label: 'Programs', icon: Briefcase },
   { href: '/contact', label: 'Contact', icon: Mail },
